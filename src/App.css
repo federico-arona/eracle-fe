@@ -5,7 +5,6 @@ html, body, #app, #app>div {
 
 .container{
     display: flex;
-    margin-top: 10px;
 }
 
 .others{
