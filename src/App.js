@@ -12,7 +12,9 @@ function App() {
         <Route path="/login">
           <Login />
         </Route>
-        <PrivateRoute path="/dashboard"></PrivateRoute>
+        <PrivateRoute path="/dashboard">
+          applicazione
+        </PrivateRoute>
         {/* 
           <PrivateRoute path="/onlyAuthorizedAllowedHere/" component={MyComponent} />
         */}
