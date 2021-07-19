@@ -1,5 +1,6 @@
-import API from "../utlis/Api";
+//import API from "../utlis/Api";
 import Cookies from 'universal-cookie';
+import { Auth } from '../services/Api/UserApi'
 
 const AuthService = {
     login,
@@ -35,7 +36,8 @@ function login(event) {
     var object = {};
     data.forEach((value, key) => object[key] = value);
     var json = JSON.stringify(object);
-    API.post('/auth/login', data)
+
+    Auth.login(data)
     .then(response =>  {
         //Set-Cookie: id=a3fWa; Expires=Thu, 21 Oct 2021 07:28:00 GMT; Secure; HttpOnly
         const cookies = new Cookies();
@@ -85,11 +87,18 @@ httpOnly (boolean): Is only the server can access the cookie?
 sameSite (boolean|none|lax|strict): Strict or Lax enforcement*/
 
 function logout() {
-    // remove user from local storage to log user out
-    //localStorage.removeItem('currentUser');
-    //currentUserSubject.next(null);
-    const cookies = new Cookies();
-    cookies.remove('user');
+    var data;
+    Auth.logout(data)
+    .then(response =>  {
+        const cookies = new Cookies();
+        cookies.remove('user');
+        window.location = "/dashboard"
+    })
+    .catch(error => {
+        //this.setState({ errorMessage: error.message });
+        console.log(error);
+        console.error('There was an error!', error);  
+    });
 }
 
 export default AuthService;

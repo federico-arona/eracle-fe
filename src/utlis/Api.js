@@ -31,12 +31,8 @@ API.interceptors.response.use((response) =>
   },
 );
 
-export default API
-
-/*
-
-const { get, post, put, delete: destroy } = apiClient;
-export { get, post, put, destroy };*/
+const { get, post, put, delete: destroy } = API;
+export { get, post, put, destroy };
 
 
 

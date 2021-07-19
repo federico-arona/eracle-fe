@@ -10,7 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
 import Title from './Title';
 
-import API from "../utlis/Api";
+import { Watchlist } from '../services/Api/WatchlistApi'
 
 import readXlsxFile from 'read-excel-file'
 
@@ -89,7 +89,7 @@ export default function Orders() {
 
   const getWatchlistData = async () => {
   
-    API.get('/users/1/watchlist')
+    Watchlist.get()
     .then(response =>  {
       setProduct(response['data']);
     })

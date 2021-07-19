@@ -1,6 +1,4 @@
-import API from "../utlis/Api";
-import Cookies from 'universal-cookie';
-import { func } from "prop-types";
+import { Watchlist } from '../services/Api/WatchlistApi'
 
 const WatchlistService = {
     startScraping,
@@ -11,7 +9,7 @@ const WatchlistService = {
 
 function startScraping()
 {
-    API.post('/watchlist/scrape')
+    Watchlist.startScraping()
     .then(response =>  {
       console.log(response);
     })
@@ -29,7 +27,7 @@ function sendEans(data)
     myobj.eans = data; 
     console.log(myobj);
 
-    API.post('users/1/watchlist', myobj)
+    Watchlist.sendEans(myobj)
         .then(response =>  {
             console.log(response);
         })
@@ -42,7 +40,7 @@ function sendEans(data)
 
 function clearWatchlist()
 {
-    API.post('users/1/watchlist/actions/clear')
+    Watchlist.clear()
     .then(response =>  {
         console.log(response);
         //Orders.getWatchlistData();
