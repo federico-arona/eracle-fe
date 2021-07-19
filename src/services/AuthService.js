@@ -12,8 +12,8 @@ const AuthService = {
 function isLoggedIn()
 {
     //console.log(cookies.get('user').token)
-    const cookies = new Cookies();
-    return cookies.get('user') !== undefined; 
+    const cookies = new Cookies();    
+    return cookies.get('user') !== undefined;
 }
 
 /*set(name, value, [options])
