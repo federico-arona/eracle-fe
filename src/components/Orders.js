@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useState } from "react";
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -15,21 +16,7 @@ function createData(id, ean, asin, name, description, amazonPrice, buyBoxPrice) 
   return { id, ean, asin, name, description, amazonPrice, buyBoxPrice};
 }
 
-function getWatchlistData(event) {
-  
-  API.get('/users/1/watchlist')
-  .then(response =>  {
-    console.log("ok");
-    console.log(response['data']);
-    rows = response['data'];
-  })
-  .catch(error => {
-      //this.setState({ errorMessage: error.message });
-      console.log(error);
-      console.error('There was an error!', error);
-     
-  });
-}
+
 
 const rows = [
   createData(0, '16 Mar, 2019', 'Elvis Presley', 'Tupelo, MS', 'VISA ⠀•••• 3719', 312.44, 212.79),
@@ -42,7 +29,7 @@ const rows = [
 
 function preventDefault(event) {
   event.preventDefault();
-  getWatchlistData(event);
+  //getWatchlistData(event);
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -52,7 +39,29 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Orders() {
+
   const classes = useStyles();
+  const [products, setProduct] = useState([]);
+  //const [products, getWatchlistData] = useState([]);
+
+  const getWatchlistData = async () => {
+  
+    API.get('/users/1/watchlist')
+    .then(response =>  {
+      setProduct(response['data']);
+    })
+    .catch(error => {
+        //this.setState({ errorMessage: error.message });
+        console.log(error);
+        console.error('There was an error!', error);
+       
+    });
+  }
+
+  useEffect(()  =>{
+    getWatchlistData();
+  },[])
+  
   return (
     <React.Fragment>
       <Title>Recent Orders</Title>
@@ -68,14 +77,14 @@ export default function Orders() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.ean}</TableCell>
-              <TableCell>{row.asin}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.description}</TableCell>
-              <TableCell align="right">{row.amazonPrice}</TableCell>
-              <TableCell align="right">{row.buyBoxPrice}</TableCell>
+          {products.map((product) => (
+            <TableRow key={product.ean}>
+              <TableCell>{product.ean}</TableCell>
+              <TableCell>{product.asin}</TableCell>
+              <TableCell>{product.name}</TableCell>
+              <TableCell>{product.description}</TableCell>
+              <TableCell align="right">{product.amazon_price}</TableCell>
+              <TableCell align="right">{product.buy_box_price}</TableCell>
             </TableRow>
           ))}
         </TableBody>
