@@ -23,4 +23,22 @@ API.interceptors.request.use((config) => {
   error => Promise.reject(error),
 );
 
+API.interceptors.response.use((response) =>
+  response,
+  async (error) => {
+    //...
+    return Promise.reject(error.response.data);
+  },
+);
+
 export default API
+
+/*
+
+const { get, post, put, delete: destroy } = apiClient;
+export { get, post, put, destroy };*/
+
+
+
+
+
