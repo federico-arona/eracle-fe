@@ -16,28 +16,12 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-import API from "../utlis/Api";
+import AuthService from '../services/AuthService'
 import { Redirect } from 'react-router-dom';
 
 function handleSubmit(event) {
   event.preventDefault();
-  
-  const data = new FormData(event.target);
-  var object = {};
-  data.forEach((value, key) => object[key] = value);
-  var json = JSON.stringify(object);
-  
-  API.post('/auth/login', data)
-  .then(response =>  {
-    console.log("ok");
-    window.location = "/dashboard"
-  })
-  .catch(error => {
-      //this.setState({ errorMessage: error.message });
-      console.log(error);
-      console.error('There was an error!', error);
-     
-  });
+  AuthService.login(event.target);
 }
 
 function Copyright() {
