@@ -6,8 +6,8 @@ const Watchlist = {
     startScraping: () =>
       post('/watchlist/scrape'),
     sendEans: (params) =>
-      post('/watchlist/scrape', params),
-    sendEans: (params) =>
+      post('/users/1/watchlist', params),
+    clear: (params) =>
       post('users/1/watchlist/actions/clear', params),
       
 }
