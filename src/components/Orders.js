@@ -12,6 +12,8 @@ import Title from './Title';
 
 import API from "../utlis/Api";
 
+import readXlsxFile from 'read-excel-file'
+
 // Generate Order Data
 function createData(id, ean, asin, name, description, amazonPrice, buyBoxPrice) {
   return { id, ean, asin, name, description, amazonPrice, buyBoxPrice};
@@ -56,6 +58,47 @@ function exportToPdf(event) {
   xhr.send(null);  
 }
 
+function readPdf(event) {
+  
+  //event.preventDefault();
+  var file = event.target.files[0];
+  var eansToSend = [];
+
+  readXlsxFile(file).then((rows) => {
+    
+    // `rows` is an array of rows
+    // each row being an array of cells.
+    rows.forEach(element =>
+      {
+        eansToSend.push(element[0]);
+      });
+      sendEans(eansToSend);
+  });
+
+  event.target.value = null;
+}
+
+function sendEans(data)
+{
+  var myobj = {eans: ""};
+  myobj.eans = data; 
+  console.log(myobj);
+
+  API.post('users/1/watchlist', myobj)
+    .then(response =>  {
+        console.log(response);
+    })
+    .catch(error => {
+        //this.setState({ errorMessage: error.message });
+        console.log(error);
+        console.error('There was an error!', error);  
+    });
+}
+
+const input = document.getElementById('input')
+
+
+
 const useStyles = makeStyles((theme) => ({
   seeMore: {
     marginTop: theme.spacing(3),
@@ -66,7 +109,7 @@ export default function Orders() {
 
   const classes = useStyles();
   const [products, setProduct] = useState([]);
-  //const [products, getWatchlistData] = useState([]);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const getWatchlistData = async () => {
   
@@ -116,8 +159,8 @@ export default function Orders() {
       <Grid container spacing={1}>
         <Grid item >
             <div className={classes.seeMore}>
-              <Link color="primary" href="#" onClick={preventDefault}>
-                See more products
+              <Link color="primary" href="#" onClick={getWatchlistData}>
+                Refresh
               </Link>
             </div>
           </Grid>
@@ -130,9 +173,11 @@ export default function Orders() {
           </Grid>
           <Grid item>
             <div className={classes.seeMore}>
-              <Link color="primary" href="#" onClick={exportToPdf}>
-                Import from xlsx
-              </Link>
+              <input
+                type="file"
+                value={selectedFile}
+                onChange={(e) => readPdf(e)}
+              />
             </div>
           </Grid>
       </Grid>
