@@ -4,6 +4,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute'
 
 import Login from './pages/Login'
+import Dashboard from './components/Dashboard';
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
           <Login />
         </Route>
         <PrivateRoute path="/dashboard">
-          applicazione
+          <Dashboard />
         </PrivateRoute>
         {/* 
           <PrivateRoute path="/onlyAuthorizedAllowedHere/" component={MyComponent} />
