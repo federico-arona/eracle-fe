@@ -11,6 +11,7 @@ const AuthService = {
 
 function isLoggedIn()
 {
+    //console.log(cookies.get('user').token)
     const cookies = new Cookies();
     return cookies.get('user') !== undefined; 
 }
@@ -38,8 +39,8 @@ function login(event) {
     .then(response =>  {
         //Set-Cookie: id=a3fWa; Expires=Thu, 21 Oct 2021 07:28:00 GMT; Secure; HttpOnly
         const cookies = new Cookies();
-        //cookies.set('user', response.data.token, { path: '/', secure: true, httpOnly: true });
-        this.logout();
+        //cookies.set('user', response.data, { path: '/', secure: true, httpOnly: true });
+        cookies.set('user', response.data, { path: '/', });
         window.location = "/dashboard"
     })
     .catch(error => {

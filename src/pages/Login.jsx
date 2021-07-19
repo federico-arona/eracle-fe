@@ -17,7 +17,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
 import AuthService from '../services/AuthService'
-import { Redirect } from 'react-router-dom';
 
 function handleSubmit(event) {
   event.preventDefault();
