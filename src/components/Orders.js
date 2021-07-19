@@ -7,6 +7,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Grid from '@material-ui/core/Grid';
 import Title from './Title';
 
 import API from "../utlis/Api";
@@ -30,6 +31,29 @@ const rows = [
 function preventDefault(event) {
   event.preventDefault();
   //getWatchlistData(event);
+}
+
+function exportToPdf(event) {
+  
+  event.preventDefault();
+  var xhr = new XMLHttpRequest();
+  xhr.responseType = 'arraybuffer';
+  xhr.open("GET", "http://127.0.0.1:8000/api/users/1/watchlist/actions/export", true);
+  xhr.onload = function (e) {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        var FileSaver = require('file-saver');
+        var blob = new Blob([xhr.response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        FileSaver.saveAs(blob, 'watchlist.xlsx');
+      } else {
+        console.error(xhr.statusText);
+      }
+    }
+  }.bind(this);
+  xhr.onerror = function (e) {
+    console.error(xhr.statusText);
+  };
+  xhr.send(null);  
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -89,11 +113,31 @@ export default function Orders() {
           ))}
         </TableBody>
       </Table>
-      <div className={classes.seeMore}>
-        <Link color="primary" href="#" onClick={preventDefault}>
-          See more orders
-        </Link>
-      </div>
+      <Grid container spacing={1}>
+        <Grid item >
+            <div className={classes.seeMore}>
+              <Link color="primary" href="#" onClick={preventDefault}>
+                See more products
+              </Link>
+            </div>
+          </Grid>
+          <Grid item>
+            <div className={classes.seeMore}>
+              <Link color="primary" href="#" onClick={exportToPdf}>
+                Export to xlsx
+              </Link>
+            </div>
+          </Grid>
+          <Grid item>
+            <div className={classes.seeMore}>
+              <Link color="primary" href="#" onClick={exportToPdf}>
+                Import from xlsx
+              </Link>
+            </div>
+          </Grid>
+      </Grid>
+      
+      
     </React.Fragment>
   );
 }
