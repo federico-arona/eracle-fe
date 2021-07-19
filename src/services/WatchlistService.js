@@ -1,3 +1,4 @@
+import Cookies from 'universal-cookie';
 import { Watchlist } from '../services/Api/WatchlistApi'
 
 const WatchlistService = {
@@ -53,9 +54,11 @@ function clearWatchlist()
 }
 
 function exportToPdf(){
+    const cookies = new Cookies();    
+    const userId = cookies.get('user') !== undefined ? cookies.get('user').user.id : null;  
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'arraybuffer';
-    xhr.open("GET", "http://127.0.0.1:8000/api/users/1/watchlist/actions/export", true);
+    xhr.open("GET", "http://127.0.0.1:8000/api/users/"+userId+"/watchlist/actions/export", true);
     xhr.onload = function (e) {
         if (xhr.readyState === 4) {
         if (xhr.status === 200) {
