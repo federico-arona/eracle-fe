@@ -5,11 +5,13 @@ const apiClient = axios.create({
 });
 
 apiClient.interceptors.request.use((config) => {
+  const cookies = new Cookies();    
+  $token = cookies.get('user').token;
   return ({
     ...config,
     headers: {
       'accept' : "application/json",
-      //'Authorization' : 'Bearer '.$token,
+      'Authorization' : 'Bearer '. $token,
     },
   })
 },

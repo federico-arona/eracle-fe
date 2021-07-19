@@ -78,6 +78,19 @@ function readPdf(event) {
   event.target.value = null;
 }
 
+function startScraping(){
+  API.post('/watchlist/scrape')
+    .then(response =>  {
+      console.log(response);
+    })
+    .catch(error => {
+        //this.setState({ errorMessage: error.message });
+        console.log(error);
+        console.error('There was an error!', error);
+       
+    });
+}
+
 function sendEans(data)
 {
   var myobj = {eans: ""};
@@ -87,6 +100,21 @@ function sendEans(data)
   API.post('users/1/watchlist', myobj)
     .then(response =>  {
         console.log(response);
+    })
+    .catch(error => {
+        //this.setState({ errorMessage: error.message });
+        console.log(error);
+        console.error('There was an error!', error);  
+    });
+}
+
+function clearWatchlist()
+{
+  
+  API.post('users/1/watchlist/actions/clear')
+    .then(response =>  {
+        console.log(response);
+        //Orders.getWatchlistData();
     })
     .catch(error => {
         //this.setState({ errorMessage: error.message });
@@ -131,7 +159,7 @@ export default function Orders() {
   
   return (
     <React.Fragment>
-      <Title>Recent Orders</Title>
+      <Title>Your Watchlist</Title>
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -168,6 +196,20 @@ export default function Orders() {
             <div className={classes.seeMore}>
               <Link color="primary" href="#" onClick={exportToPdf}>
                 Export to xlsx
+              </Link>
+            </div>
+          </Grid>
+          <Grid item>
+            <div className={classes.seeMore}>
+              <Link color="primary" href="#" onClick={startScraping}>
+                Scrape
+              </Link>
+            </div>
+          </Grid>
+          <Grid item>
+            <div className={classes.seeMore}>
+              <Link color="primary" href="#" onClick={clearWatchlist}>
+                Clear watchlist
               </Link>
             </div>
           </Grid>
