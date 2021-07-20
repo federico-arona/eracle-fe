@@ -1,6 +1,5 @@
 import './App.css';
-import { BrowserRouter, Route } from 'react-router-dom';
-
+import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute'
 
 import Login from './pages/Login'
@@ -12,6 +11,9 @@ function App() {
       <BrowserRouter>
         <Route path="/login">
           <Login />
+        </Route>
+        <Route exact path="/">
+          <Redirect to="/dashboard" />
         </Route>
         <PrivateRoute path="/dashboard" component={Dashboard} />
         {/* 
