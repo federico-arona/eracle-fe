@@ -25,10 +25,14 @@ API.interceptors.request.use((config) => {
 
 API.interceptors.response.use((response) =>
   response,
-  async (error) => {
-    //...
-    console.log(error);
-    return Promise.reject(error.response.data);
+  async (error, response) => {
+    if(error.response.status === 401)
+    {
+      const cookies = new Cookies();    
+      const token = cookies.remove('user');
+      window.location = "/login"
+    }
+    return Promise.reject(error);
 
   },
 );

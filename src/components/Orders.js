@@ -93,11 +93,7 @@ export default function Orders() {
     .then(response =>  {
       setProduct(response['data']);
     })
-    .catch(error => {
-        //this.setState({ errorMessage: error.message });
-        console.log(error);
-        console.error('There was an error!', error);
-       
+    .catch(error => {       
     });
   }
 
