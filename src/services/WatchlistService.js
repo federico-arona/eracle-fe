@@ -5,7 +5,7 @@ const WatchlistService = {
     startScraping,
     sendEans,
     clearWatchlist,
-    exportToPdf
+    exportToExcel
 };
 
 function startScraping()
@@ -53,17 +53,19 @@ function clearWatchlist()
     });
 }
 
-function exportToPdf(){
+function exportToExcel(){
     const cookies = new Cookies();    
-    const userId = cookies.get('user') !== undefined ? cookies.get('user').user.id : null;  
+    const cookie = cookies.get('user') !== undefined ? cookies.get('user') : null;  
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'arraybuffer';
-    xhr.open("GET", process.env.REACT_APP_API_ENDPOINT+"users/"+userId+"/watchlist/actions/export", true);
+    xhr.open("GET", process.env.REACT_APP_API_ENDPOINT+"users/"+cookie.user.id+"/watchlist/actions/export", true);
+    xhr.setRequestHeader('Authorization', 'Bearer '+ cookie.token);
     xhr.onload = function (e) {
         if (xhr.readyState === 4) {
         if (xhr.status === 200) {
             var FileSaver = require('file-saver');
             var blob = new Blob([xhr.response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+            console.log(xhr.response);
             FileSaver.saveAs(blob, 'watchlist.xlsx');
         } else {
             console.error(xhr.statusText);

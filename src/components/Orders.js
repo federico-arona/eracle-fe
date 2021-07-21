@@ -57,10 +57,9 @@ function readPdf(event) {
   event.target.value = null;
 }
 
-function exportToPdf(event) {
-  
+function exportToExcel(event) {
   event.preventDefault();
-  WatchlistService.exportToPdf();
+  WatchlistService.exportToExcel();
 }
 
 function startScraping(){
@@ -138,7 +137,7 @@ export default function Orders() {
           </Grid>
           <Grid item>
             <div className={classes.seeMore}>
-              <Link color="primary" href="#" onClick={exportToPdf}>
+              <Link color="primary" href="#" onClick={exportToExcel}>
                 Export to xlsx
               </Link>
             </div>
