@@ -25,11 +25,11 @@ API.interceptors.request.use((config) => {
 
 API.interceptors.response.use((response) =>
   response,
-  async (error, response) => {
+  async (error) => {
     if(error.response.status === 401)
     {
       const cookies = new Cookies();    
-      const token = cookies.remove('user');
+      cookies.remove('user');
       window.location = "/login"
     }
     return Promise.reject(error);
