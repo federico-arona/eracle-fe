@@ -58,7 +58,7 @@ function exportToPdf(){
     const userId = cookies.get('user') !== undefined ? cookies.get('user').user.id : null;  
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'arraybuffer';
-    xhr.open("GET", process.env.REACT_APP_API_ENDPOINT+"/users/"+userId+"/watchlist/actions/export", true);
+    xhr.open("GET", process.env.REACT_APP_API_ENDPOINT+"users/"+userId+"/watchlist/actions/export", true);
     xhr.onload = function (e) {
         if (xhr.readyState === 4) {
         if (xhr.status === 200) {
