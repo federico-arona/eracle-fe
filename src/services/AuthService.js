@@ -31,30 +31,34 @@ secure (boolean): Is only accessible through HTTPS?
 httpOnly (boolean): Is only the server can access the cookie?
 sameSite (boolean|none|lax|strict): Strict or Lax enforcement*/
 
-function login(event) {
+async function login(event) {
     const data = new FormData(event);
     var object = {};
     data.forEach((value, key) => object[key] = value);
-    var json = JSON.stringify(object);
-
-    Auth.login(data)
-    .then(response =>  {
-        //Set-Cookie: id=a3fWa; Expires=Thu, 21 Oct 2021 07:28:00 GMT; Secure; HttpOnly
-        const cookies = new Cookies();
-        //cookies.set('user', response.data, { path: '/', secure: true, httpOnly: true });
-        cookies.set('user', response.data, { path: '/', });
-        window.location = "/dashboard"
-    })
-    .catch(error => {
-        //this.setState({ errorMessage: error.message });
-        console.log(error);
-        console.error('There was an error!', error);  
-    });
+    return await beCall(data);
 }
 
+function beCall(data) {
+    return new Promise(function(resolve, reject) {
+        Auth.login(data)
+        .then(response =>  {
+            //Set-Cookie: id=a3fWa; Expires=Thu, 21 Oct 2021 07:28:00 GMT; Secure; HttpOnly
+            const cookies = new Cookies();
+            //cookies.set('user', response.data, { path: '/', secure: true, httpOnly: true });
+            cookies.set('user', response.data, { path: '/', });
+            resolve(response);
+        })
+        .catch(error => {
+            //this.setState({ errorMessage: error.message });
+            console.error('There was an error!', error);
+            reject(error);
+        });
+      })
+  }
 
 
-      
+
+/*    
 function login2(username, password) {
     /*const requestOptions = {
         method: 'POST',
@@ -70,8 +74,8 @@ function login2(username, password) {
             currentUserSubject.next(user);
 
             return user;
-        });*/
-}
+        });
+}*/
 
 /*remove(name, [options])
 Remove a cookie

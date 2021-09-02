@@ -1,13 +1,20 @@
-// utils/API.js
-
 import axios from "axios";
 import Cookies from 'universal-cookie';
+import ReactDOM from 'react-dom';
+import SimpleSnackbar from '../components/Snackbar'
+import React from 'react';
+
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
+
+import { useSnackbar } from 'notistack';
 
 const API = axios.create({
   baseURL: process.env.REACT_APP_API_ENDPOINT,
   responseType: "json",
   withCredentials: true
 });
+
 
 API.interceptors.request.use((config) => {
   const cookies = new Cookies();    
@@ -26,14 +33,12 @@ API.interceptors.request.use((config) => {
 API.interceptors.response.use((response) =>
   response,
   async (error) => {
-    if(error.response.status === 401)
-    {
+    if(typeof error.response !== 'undefined' && error.response.status === 401){
       const cookies = new Cookies();    
       cookies.remove('user');
       window.location = "/login"
     }
     return Promise.reject(error);
-
   },
 );
 

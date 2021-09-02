@@ -2,7 +2,7 @@ import Cookies from 'universal-cookie';
 import { get, post, put, destroy } from "../../utlis/Api";
 
 const cookies = new Cookies();    
-const userId = cookies.get('user') !== undefined ? cookies.get('user').user.id : null;
+const userId = typeof cookies.get('user') !== 'undefined' ? cookies.get('user').user.id : null;
 
 const Watchlist = {
     

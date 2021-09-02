@@ -1,7 +1,5 @@
 import React from 'react';
-import { useState } from "react";
-import axios from 'axios';
-import { AxiosProvider, Request, Get, Delete, Head, Post, Put, Patch, withAxios } from 'react-axios'
+import { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -15,13 +13,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import AuthService from '../services/AuthService'
-
-function handleSubmit(event) {
-  event.preventDefault();
-  AuthService.login(event.target);
-}
 
 function Copyright() {
   return (
@@ -56,11 +50,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+export default function SignIn()  {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const classes = useStyles();
 
+  async function handleSubmit (event) {  
+    event.preventDefault();
+    setIsLoading(true)
+    try {
+      await AuthService.login(event.target);
+      setIsLoading(false)
+      window.location = "/dashboard"
+    } catch (e) {
+      setIsLoading(false)
+    } finally {
+      //console.log('We do cleanup here');
+    }
+    
+  }
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -71,7 +80,7 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate onSubmit={handleSubmit}>
+        <form className={classes.form} noValidate onSubmit={(event) => { handleSubmit(event) }}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -100,15 +109,19 @@ export default function SignIn() {
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />
-          <Button
+          { isLoading ?
+            <CircularProgress/> :
+            <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
-          >
-            Sign In
-          </Button>
+            >
+              Sign In
+            </Button>
+          }
+          
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
