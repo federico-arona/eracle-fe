@@ -10,6 +10,8 @@
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.1",
     "file-saver": "^2.0.5",
+    "material-ui-snackbar-provider": "^1.5.0",
+    "notistack": "^1.0.9",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-axios": "^2.0.5",
