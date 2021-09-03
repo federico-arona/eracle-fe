@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from 'universal-cookie';
 import ReactDOM from 'react-dom';
-import SimpleSnackbar from '../components/Snackbar'
+//import SimpleSnackbar from '../components/Snackbar'
 import React from 'react';
 
 import CloseIcon from '@material-ui/icons/Close';
