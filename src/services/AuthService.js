@@ -12,7 +12,6 @@ const AuthService = {
 
 function isLoggedIn()
 {
-    //console.log(cookies.get('user').token)
     const cookies = new Cookies();    
     return cookies.get('user') !== undefined;
 }
@@ -100,7 +99,6 @@ function logout() {
     })
     .catch(error => {
         //this.setState({ errorMessage: error.message });
-        console.log(error);
         console.error('There was an error!', error);  
     });
 }
