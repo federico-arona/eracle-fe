@@ -47,9 +47,8 @@ function beCall(data) {
             cookies.set('user', response.data, { path: '/', });
             resolve(response);
         })
-        .catch(error => {
+        .catch( (error, response) => {
             //this.setState({ errorMessage: error.message });
-            console.error('There was an error!', error);
             reject(error);
         });
       })

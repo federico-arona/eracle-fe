@@ -17,6 +17,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import AuthService from '../services/AuthService'
 
+import { useSnackbar } from 'notistack';
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -56,15 +58,18 @@ export default function SignIn()  {
   const [isLoading, setIsLoading] = useState(false);
   const classes = useStyles();
 
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
   async function handleSubmit (event) {  
     event.preventDefault();
     setIsLoading(true)
     try {
       await AuthService.login(event.target);
-      setIsLoading(false)
+      enqueueSnackbar('Login Success', {variant: 'success'});
       window.location = "/dashboard"
     } catch (e) {
-      setIsLoading(false)
+      setIsLoading(false);
+      enqueueSnackbar(e.response.data.message, {variant: 'error'});
     } finally {
       //console.log('We do cleanup here');
     }
