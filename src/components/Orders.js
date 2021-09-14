@@ -112,6 +112,7 @@ export default function Orders() {
             <TableCell>Description</TableCell>
             <TableCell align="right">Amazon Price</TableCell>
             <TableCell align="right">Buy Box Price</TableCell>
+            <TableCell>Last Update</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -123,6 +124,7 @@ export default function Orders() {
               <TableCell>{product.description}</TableCell>
               <TableCell align="right">{product.amazon_price}</TableCell>
               <TableCell align="right">{product.buy_box_price}</TableCell>
+              <TableCell>{product.updated_at}</TableCell>
             </TableRow>
           ))}
         </TableBody>
