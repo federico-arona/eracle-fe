@@ -44,7 +44,7 @@ function beCall(data) {
             //Set-Cookie: id=a3fWa; Expires=Thu, 21 Oct 2021 07:28:00 GMT; Secure; HttpOnly
             const cookies = new Cookies();
             //cookies.set('user', response.data, { path: '/', secure: true, httpOnly: true });
-            cookies.set('user', response.data, { path: '/', });
+            cookies.set('user', response.data, { path: '/', expires: 0});
             resolve(response);
         })
         .catch( (error, response) => {
